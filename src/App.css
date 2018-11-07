@@ -22,11 +22,13 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Board-container{
+  border: 4px solid white;
+  height: 500px;
+  width: 25%;
+  border-radius: 42px;
+}
+
+.LifeTotal{
+  font-size: 40px;
 }
