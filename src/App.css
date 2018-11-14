@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -18,17 +13,174 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-.Board-container{
+.gameBoard{
+  background-color: #282c34;
   border: 4px solid white;
   height: 500px;
-  width: 25%;
+  width: 350px;
   border-radius: 42px;
+  position: relative;
 }
 
-.LifeTotal{
-  font-size: 40px;
+.boardInner{
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.onePlayerTop{
+  width: 100%;
+  height: 50%;
+  position: relative;
+  top: 0;
+  transform: rotate(180deg);
+}
+
+.onePlayerBottom{
+  width: 100%;
+  height: 50%;
+  position: relative;
+  bottom: 0;
+}
+
+.container{
+  display: flex;
+  height: 100%;
+}
+
+.addLife{
+  display: inline-block;
+  width: 30%;
+  text-align: center;
+}
+
+.addLife .button{
+  height: 60px;
+  width: 60px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 50%;
+  line-height: 58px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.addLife .button .svg-inline--fa{
+  height: 100%;
+  width: 50%;
+}
+
+.addLife .button-minus .svg-inline--fa{
+  height: 100%;
+  width: 40%;
+}
+
+
+.lifeCounter{
+  display: inline-block;
+  width: 40%;
+  text-align: center;
+  vertical-align: middle;
+}
+.lifeCounter h1{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 80px;
+}
+
+
+.menu{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  height: 40px;
+  transform: translateY(-50%);
+  text-align: center;
+  box-sizing: border-box;
+  border: 1px solid red;
+  -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+  transition: all 0.5s, transform 0.5s;
+}
+
+.menu.active{
+  transform: translateY(0);
+  -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+  transition: all 0.5s, transform 0.5s;
+ }
+
+.menu ul{
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+}
+.menu ul li{
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  flex: 0 1 auto;
+}
+.menu ul li svg{
+  vertical-align: middle;
+  height: 40px;
+}
+
+.menu .mainMenu:hover{
+  cursor: pointer;
+}
+.test-menu{
+  border: 1px solid blue;
+  height: 80px;
+  z-index: 20;
+}
+
+.MenuOverlay{
+  z-index: 10;
+  background-color: yellow;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 42px;
+  -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+  transition: all 0.5s, transform 0.5s;
+}
+.MenuOverlay .menu-logo{
+  display: block;
+  height: 40px;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+  color: white;
+}
+.MenuOverlay.active{
+ transform: translateY(-100%);
+ -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+ transition: all 0.5s, transform 0.5s;
+}
+
+/* Mobile (phone) Devices */
+@media (max-width: 550px){
+  .gameBoard{
+    height: 100vh;
+    width: 100%;
+    border-radius: 0;
+  }
 }
