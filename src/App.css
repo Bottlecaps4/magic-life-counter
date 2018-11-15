@@ -20,6 +20,7 @@
   width: 350px;
   border-radius: 42px;
   position: relative;
+  overflow: hidden;
 }
 
 .boardInner{
@@ -36,6 +37,7 @@
   position: relative;
   top: 0;
   transform: rotate(180deg);
+  background-color: green;
 }
 
 .onePlayerBottom{
@@ -43,6 +45,7 @@
   height: 50%;
   position: relative;
   bottom: 0;
+  background-color: red;
 }
 
 .container{
@@ -97,33 +100,74 @@
   font-size: 80px;
 }
 
+.MenuOverlay{
+  background-color: transparent;
+  z-index: 3;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+  transition: all 0.5s, transform 0.5s;
+  background-color: #282c34;
+}
+
+
+.MenuOverlay .menu-logo{
+  display: block;
+  height: 30px;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+  color: white;
+  background-color: #282c34;
+  border-radius: 50%;
+  top: 0;
+  position: absolute;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;  
+}
+
+.MenuOverlay.active{
+ transform: translateY(-20px);
+ -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+ transition: all 0.5s, transform 0.5s;
+}
 
 .menu{
   width: 100%;
   position: absolute;
   top: 50%;
-  height: 40px;
   transform: translateY(-50%);
   text-align: center;
   box-sizing: border-box;
-  border: 1px solid red;
+  background-color: #282c34;
   -webkit-transition: all 0.5s, -webkit-transform 0.5s;
   transition: all 0.5s, transform 0.5s;
+  height: 0;
+  overflow: hidden;
 }
 
 .menu.active{
-  transform: translateY(0);
+  transform: translateY(-20px);
   -webkit-transition: all 0.5s, -webkit-transform 0.5s;
   transition: all 0.5s, transform 0.5s;
+  height: 45px;
+  z-index: 1;
  }
 
 .menu ul{
+  position: relative;
   list-style-type: none;
   margin: 0px;
   padding: 0px;
   text-align: left;
   display: flex;
   justify-content: space-between;
+  z-index: 1;
 }
 .menu ul li{
   display: inline-block;
@@ -134,46 +178,65 @@
   width: 20%;
   height: 100%;
   text-align: center;
-  flex: 0 1 auto;
+  flex: 0 1 auto; 
+  
 }
 .menu ul li svg{
   vertical-align: middle;
-  height: 40px;
+  height: 45px;
 }
 
 .menu .mainMenu:hover{
   cursor: pointer;
 }
-.test-menu{
-  border: 1px solid blue;
-  height: 80px;
-  z-index: 20;
-}
 
-.MenuOverlay{
-  z-index: 10;
-  background-color: yellow;
+/* Life Total Menu */
+.lifeMenu{
   width: 100%;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 42px;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: #282c34;
   -webkit-transition: all 0.5s, -webkit-transform 0.5s;
   transition: all 0.5s, transform 0.5s;
+  height: 0;
+  overflow: hidden;
 }
-.MenuOverlay .menu-logo{
-  display: block;
-  height: 40px;
-  width: auto;
+
+.lifeMenu ul{
+  position: relative;
+  list-style-type: none;
+  margin: 0px;
+  height: 100%;
+  padding: 0px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+}
+.lifeMenu ul li{
+  display: inline-block;
+  vertical-align: middle;
   margin-left: auto;
   margin-right: auto;
-  background: transparent;
-  color: white;
+  text-align: center;
+  flex: 0 1 auto; 
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: 500;
 }
-.MenuOverlay.active{
- transform: translateY(-100%);
- -webkit-transition: all 0.5s, -webkit-transform 0.5s;
- transition: all 0.5s, transform 0.5s;
+.lifeMenu ul li:hover{
+  cursor: pointer;
+}
+
+.lifeMenu.active{
+  transform: translateY(-20px);
+  -webkit-transition: all 0.5s, -webkit-transform 0.5s;
+  transition: all 0.5s, transform 0.5s;
+  height: 45px;
+  z-index: 1;
 }
 
 /* Mobile (phone) Devices */

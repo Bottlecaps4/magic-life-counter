@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faSyncAlt,
+  faUndo,
   faMinus, 
   faPlus ,
   faDice ,
@@ -15,18 +16,21 @@ class Board extends React.Component {
     super(props);
     this.state = {
       playerCount: 2,
+      startLife: 20,
       playerOneLife: 20,
       playerTwoLife: 20,
       playerThreeLife: 20,
       playerFourLife: 20,
-      menuVisible: true
+      menuVisible: false,
+      lifeMenuVisible: false,
     };
 
     this.incrementLife = this.incrementLife.bind(this);
     this.decrementLife = this.decrementLife.bind(this);
     this.resetAllLife = this.resetAllLife.bind(this);
-    this.changePlayerCount = this.changePlayerCount.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
+    this.changeStartLife = this.changeStartLife.bind(this);
+    this.toggleLifeMenu = this.toggleLifeMenu.bind(this);
   }
 
   incrementLife(life) {
@@ -43,22 +47,33 @@ class Board extends React.Component {
 
   resetAllLife() {
     this.setState({
-      playerOneLife: 20,
-      playerTwoLife: 20,
-      playerThreeLife: 20,
-      playerFourLife: 20,
+      playerOneLife: this.state.startLife,
+      playerTwoLife: this.state.startLife,
+      playerThreeLife: this.state.startLife,
+      playerFourLife: this.state.startLife,
     });
   }
 
-  changePlayerCount(i){
+  changeStartLife(i){
     this.setState({
-      playerCount: i
+      playerOneLife: i,
+      playerTwoLife: i,
+      playerThreeLife: i,
+      playerFourLife: i,
+      startLife: i
     })
   }
 
   toggleMenu(){
     this.setState({
-      menuVisible: !this.state.menuVisible
+      menuVisible: !this.state.menuVisible,
+      lifeMenuVisible: false
+    })
+  }
+
+  toggleLifeMenu(){
+    this.setState({
+      lifeMenuVisible: !this.state.lifeMenuVisible
     })
   }
 
@@ -69,21 +84,19 @@ class Board extends React.Component {
       players = 
       <div className="boardInner">
         <div className="onePlayerTop">
-          <Counter
+          <Counter className="playerOne"
             initialLife={this.state.playerOneLife}
             onPlusClick={() => this.incrementLife("playerOneLife")}
             onMinusClick={() => this.decrementLife("playerOneLife")}
           />
         </div>
         <div className="onePlayerBottom">
-          <Counter
+          <Counter className="playerTwo"
             initialLife={this.state.playerTwoLife}
             onPlusClick={() => this.incrementLife("playerTwoLife")}
             onMinusClick={() => this.decrementLife("playerTwoLife")}
           />
         </div>
-        
-        <button onClick={() => this.changePlayerCount(3)}>Change to 3</button>
       </div>
       
     } else if (playerCount === 3 ){
@@ -104,27 +117,32 @@ class Board extends React.Component {
           onPlusClick={() => this.incrementLife("playerThreeLife")}
           onMinusClick={() => this.decrementLife("playerThreeLife")}
         />
-        <button onClick={() => this.changePlayerCount(2)}>Change to 2</button>
       </div>
     }
  
     return (
       <div className="gameBoard">
         {players}
-        {/* <span className="mainMenu" onClick={this.resetAllLife}>{element}</span> */}
 
         <MenuOverlay 
           onMenuClick={() => this.toggleMenu()}
           checkState={this.state.menuVisible}
         />
-        
-        
-        
-          <MenuItems 
-            menuIsOpen={this.state.menuVisible}
-          />
-        
-        
+
+        <MainMenu 
+          menuIsOpen={this.state.menuVisible}
+          lifeMenuIsOpen={this.state.lifeMenuVisible}
+          onResetLifeClick={() => this.resetAllLife() }
+          onLifeMenuClick={ () => this.toggleLifeMenu() }
+        />
+
+        <LifeMenu 
+          lifeMenuIsOpen={this.state.lifeMenuVisible}
+          onChangeStartLifeToTwenty={() => this.changeStartLife(20)} 
+          onChangeStartLifeToThirty={() => this.changeStartLife(30)} 
+          onChangeStartLifeToFourty={() => this.changeStartLife(40)} 
+          returnToMainMenu={()=> this.toggleLifeMenu()}
+        />
       </div>
     );
   }
@@ -152,14 +170,6 @@ class Counter extends React.Component {
   }
 } 
 
-class Menu extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      isOpen: false,
-    }
-  }
-}
 
 class MenuOverlay extends React.Component{
   constructor(props){
@@ -173,42 +183,39 @@ class MenuOverlay extends React.Component{
     const element =  <img src={ require ('./images/logo.png') } className="menu-logo" /> 
 
     return (
-      <div onClick={this.props.onMenuClick} className={this.props.checkState ? "MenuOverlay":"MenuOverlay active"}>
+      <div onClick={this.props.onMenuClick} className={this.props.checkState ? "MenuOverlay active":"MenuOverlay"}>
         <span >{element}</span>
       </div>
     )
   }
 }
 
-class MenuItems extends React.Component {
+class MainMenu extends React.Component {
   
-  constructor(props){
-    super(props);
-    this.state = {
-      links: [{
-        text: 'Dice',
-        icon: <FontAwesomeIcon icon={faDice} />
-      },{
-        text: 'Players',
-        icon: <FontAwesomeIcon icon={faUsers} />
-      },{
-        text: 'Reload',
-        icon: <FontAwesomeIcon icon={faSyncAlt} />
-      },{
-        text: 'Life',
-        icon: <FontAwesomeIcon icon={faHeart} />
-      }]
-    }
-  }
-
   render() {
-    let links = this.state.links.map((link, i) => <li> {link.icon}</li>  )
-
     return (
-      
-      <div className={this.props.menuIsOpen ? "menu":"menu active"}> 
+      <div className={(this.props.menuIsOpen) && (!this.props.lifeMenuIsOpen) ? "menu active":"menu"}> 
         <ul>
-          { links }
+          <li><FontAwesomeIcon icon={faDice} /></li>
+          <li><FontAwesomeIcon icon={faUsers} /></li>
+          <li onClick={this.props.onResetLifeClick}><FontAwesomeIcon icon={faSyncAlt} /></li>
+          <li onClick={this.props.onLifeMenuClick}><FontAwesomeIcon icon={faHeart} /></li>
+        </ul>
+      </div>
+    )
+  }
+}
+
+class LifeMenu extends React.Component {
+ 
+  render() {
+    return (
+      <div className={this.props.lifeMenuIsOpen ? "lifeMenu active": "lifeMenu"}>
+        <ul>
+          <li onClick={this.props.returnToMainMenu}><FontAwesomeIcon icon={faUndo} /></li>
+          <li onClick={this.props.onChangeStartLifeToTwenty}>20</li>
+          <li onClick={this.props.onChangeStartLifeToThirty}>30</li>
+          <li onClick={this.props.onChangeStartLifeToFourty}>40</li>
         </ul>
       </div>
     )
